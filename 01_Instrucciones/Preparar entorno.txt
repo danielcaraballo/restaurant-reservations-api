@@ -1,0 +1,45 @@
+Preparar entorno para django
+
+1- CREAR ENTORNO VIRTUAL  
+
+/virtaulenv .venv
+
+2- INSTALAR DJANGO Y DJANGO REST FRAMEWORK
+
+/pip3 install django /
+/pip install djangorestframework/
+
+
+
+3- CREAR PROYECTO
+
+/django-admin startproject nombre_proyecto 
+
+4- REALIZAR CONEXIÓN CON LA BASE DE DATOS POSTGRES 
+
+/ pip install psycopg2 /  es un adaptador PostgreSQL para Python.
+/ pip install psycopg2-binary /
+CONFIGURACIÓN DEL SETINGS
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'nombre_de_tu_base_de_datos',
+        'USER': 'tu_usuario',
+        'PASSWORD': 'tu_contraseña',
+        'HOST': 'localhost',  # O la dirección IP de tu servidor de base de datos
+        'PORT': '5432',  # El puerto por defecto de PostgreSQL es 5432
+    }
+
+5- INSTALAR PLANTILLA JAZZMIN
+
+pip install -U django-jazzmin
+
+6- CREAR ARCHIVO REQUERIMENTS 
+
+/ pip freeze > requirements.txt
+
+7- CREAR ARCHIVO .env
+
+/ pip install python-decouple / Decouple permite definir configuraciones como variables en un archivo .env (u otro formato compatible) en lugar de incrustarlas directamente en el código fuente.
+/ from decouple import config / importar config en el settings
