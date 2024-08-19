@@ -1,4 +1,7 @@
-from apps.gestion.models.ingreso    import Ingreso, IngresosBienes
-from apps.gestion.models.lote       import Lote
-from apps.gestion.models.salida     import Salida
-from apps.gestion.models.almacen    import Almacen
+from .areas         import Areas
+from .clientes      import Clientes
+from .mesas         import Mesas
+from .reservas      import Reservas
+from .restaurante   import Restaurantes
+from .turnos        import Turnos
+from .valoraciones  import Valoraciones

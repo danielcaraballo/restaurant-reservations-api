@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class Restaurante(models.Model):
+class Restaurantes(models.Model):
     nombre      = models.CharField('Nombre', max_length=30, null=False)
     descripcion = models.TextField('Descripcion', null = True)
     logo        = models.FilePathField('Logo', path = 'media/imgs')

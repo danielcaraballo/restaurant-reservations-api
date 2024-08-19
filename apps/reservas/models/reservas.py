@@ -11,7 +11,7 @@ class Reservas(models.Model):
     estatus       = models.CharField('Estatus', max_length=50)
     cliente       = models.ForeignKey(Clientes, on_delete=models.CASCADE)
     area          = models.ForeignKey(Areas, on_delete=models.CASCADE)
-    fecha_reserva = models.ForeignKey(DisponibilidadMesas, related_name=fecha, on_delete=models.CASCADE)
+    fecha_reserva = models.ForeignKey(DisponibilidadMesas, related_name='fecha', on_delete=models.CASCADE)
     turno_reserva = models.ForeignKey(Turnos, on_delete=models.CASCADE)
     
    

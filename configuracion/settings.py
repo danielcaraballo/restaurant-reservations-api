@@ -23,11 +23,8 @@ BASE_APPS   =   [
                 ]
 
 LOCAL_APPS  =   [
-                    'apps.auxiliares',
+                    'apps.reservas',
                     'apps.cuenta',
-                    'apps.gestion',
-                    'apps.geo',
-                    'apps.historico'
                 ]
 
 TERCERAS_APPS =    [
