@@ -1,4 +1,4 @@
-# Restaurant Reservation App
+# API Restaurant Reservation
 
 <!--Brief description of the project and its purpose.-->
 Application to manage reservations made at a restaurant in an optimized way.
@@ -29,6 +29,6 @@ Guide to contribute to the project.
 
 ©2024 Developed by Dev. Project 
 
-Daniel Caraballo `Project Manager` `Developer`
-Enyerber Rangel `Developer`
-Danny Gonzalez `Developer`
+- Daniel Caraballo `Project Manager` `Developer`
+- Enyerber Rangel `Developer`
+- Danny Gonzalez `Developer`
