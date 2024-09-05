@@ -1,8 +1,0 @@
-[Unit]
-Description=Socket de la API de Gestión Almacén
-
-[Socket]
-ListenStream=/run/gestionalmacen.sock
-
-[Install]
-WantedBy=sockets.target
