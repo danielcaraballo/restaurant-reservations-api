@@ -1,26 +1,26 @@
 from django.urls                        import path
-from rest_framework_simplejwt.views     import (TokenRefreshView,)
+from rest_framework_simplejwt.views     import TokenRefreshView
 
-from apps.user.views.ingresar                         import IngresarAPIView
-from apps.user.views.registrar                        import RegistraView
-from apps.user.views.verificar_correo                 import VerificarCorreo
-from apps.user.views.ver_usuario                      import ver_usuario
+from apps.users.views.ingresar                         import IngresarAPIView
+from apps.users.views.registrar                        import RegistraView
+from apps.users.views.verificar_correo                 import VerificarCorreo
+from apps.users.views.ver_usuario                      import ver_usuario
 #from apps.cuenta.views.ver_codigo_verificacion          import ver_codigo_verificacion
-from apps.user.views.salir                            import SalirAPIView
-from apps.user.views.solicitar_reinicio_clave         import SoliciarReinicioClave
-from apps.user.views.confirmar_reinicio_clave         import ConfirmarReinicioClave
-from apps.user.views.definir_nueva_clave              import DefinirNuevaClave
-from apps.user.views.cambiar_clave                    import CambiarClave
-from apps.user.views.actualizar_preguntas_respuestas  import actualizar_preguntas_respuestas_recuperacion
-from apps.user.views.actualizar_correo                import actualizar_correo
+from apps.users.views.salir                            import SalirAPIView
+from apps.users.views.solicitar_reinicio_clave         import SoliciarReinicioClave
+from apps.users.views.confirmar_reinicio_clave         import ConfirmarReinicioClave
+from apps.users.views.definir_nueva_clave              import DefinirNuevaClave
+from apps.users.views.cambiar_clave                    import CambiarClave
+from apps.users.views.actualizar_preguntas_respuestas  import actualizar_preguntas_respuestas_recuperacion
+from apps.users.views.actualizar_correo                import actualizar_correo
 #from apps.cuenta.views.verificar_usuario                import verificar_usuario
 #from apps.cuenta.views.comprobar_existencia_usuario     import comprobar_existencia_usuario
-from apps.user.views.buscar_preguntas_recuperacion    import buscar_preguntas_recuperacion
-from apps.user.views.responder_preguntas_recuperacion import responder_preguntas_recuperacion
-from apps.user.views.cambiar_clave_recuperacion       import cambiar_clave_recuperacion
+from apps.users.views.buscar_preguntas_recuperacion    import buscar_preguntas_recuperacion
+from apps.users.views.responder_preguntas_recuperacion import responder_preguntas_recuperacion
+from apps.users.views.cambiar_clave_recuperacion       import cambiar_clave_recuperacion
 #from apps.cuenta.views.verificar_credencial             import verificar_credencial
-from apps.user.views.comprobar_servicio               import comprobar_servicio
-from apps.user.views.sing_in                          import sign_in
+from apps.users.views.comprobar_servicio               import comprobar_servicio
+from apps.users.views.sing_in                          import sign_in
 
 
 urlpatterns =   [

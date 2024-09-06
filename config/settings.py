@@ -23,7 +23,8 @@ BASE_APPS = [
 
 LOCALS_APPS = [
     'apps.reservations',
-    'apps.cuenta',
+    #'apps.users',
+
 ]
 
 THIRDS_APPS = [
@@ -107,7 +108,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static/'),]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
-AUTH_USER_MODEL = 'cuenta.User'
+# AUTH_USER_MODEL = 'users.User'
 
 
 # Default primary key field type
