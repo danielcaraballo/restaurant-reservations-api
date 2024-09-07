@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from rest_framework import permissions, routers
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
@@ -26,4 +26,5 @@ urlpatterns = [
          cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc',
          cache_timeout=0), name='schema-redoc'),
+    path('api/reservations/', include('apps.reservations.urls')),
 ]
