@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 from apps.reservations.models.area import Area
 from apps.reservations.models.turn import Turn
 
@@ -7,7 +8,8 @@ class Table(models.Model):
 
     table_number = models.IntegerField('Table number', null=False)
     capacity = models.IntegerField('Capacity', null=False)
-    area = models.ForeignKey(Area, related_name='Area', on_delete=models.PROTECT)
+    area = models.ForeignKey(Area, related_name='Area',
+                             on_delete=models.PROTECT)
     status = models.BooleanField('Status', default=True, null=False)
 
     class Meta:
@@ -32,6 +34,11 @@ class TableAvailability(models.Model):
         db_table = 'reservations_table_availability'
         verbose_name = 'Table Availability'
         verbose_name_plural = 'Availability of Tables'
+
+    def clean(self):
+        if TableAvailability.objects.filter(table=self.table, date=self.date, turn=self.turn).exists():
+            raise ValidationError(
+                'The table is already available for this date and time.')
 
     def __str__(self):
         return f'Table {self.table.table_number} - {self.date} - Turn: {self.turn}'

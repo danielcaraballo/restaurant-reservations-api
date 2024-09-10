@@ -23,7 +23,8 @@ BASE_APPS = [
 
 LOCALS_APPS = [
     'apps.reservations',
-    'apps.cuenta',
+    #'apps.users',
+
 ]
 
 THIRDS_APPS = [
@@ -63,7 +64,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'database',
+        'NAME': 'db.sqlite3',
     }
 }
 
@@ -107,7 +108,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static/'),]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
-AUTH_USER_MODEL = 'cuenta.User'
+# AUTH_USER_MODEL = 'users.User'
 
 
 # Default primary key field type
@@ -124,3 +125,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
