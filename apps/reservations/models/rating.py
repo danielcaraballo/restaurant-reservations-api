@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.exceptions import ValidationError
-from .customer import Customer
+from apps.customers.models import Customer
 
 
 class Rating(models.Model):

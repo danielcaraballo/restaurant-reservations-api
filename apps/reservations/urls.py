@@ -1,12 +1,11 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import (AreaViewSet, CustomerViewSet, RatingViewSet,
+from .views import (AreaViewSet, RatingViewSet,
                     ReservationViewSet, RestaurantViewSet,
                     TableViewSet, TableAvailabilityViewSet, TurnViewSet)
 
 router = DefaultRouter()
 router.register(r'areas', AreaViewSet)
-router.register(r'customers', CustomerViewSet)
 router.register(r'ratings', RatingViewSet)
 router.register(r'reservations', ReservationViewSet)
 router.register(r'restaurants', RestaurantViewSet)

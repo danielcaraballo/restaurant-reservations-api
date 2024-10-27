@@ -1,7 +1,7 @@
 from django.db import models
 from django.core.exceptions import ValidationError
-from apps.reservations.models.area import Area
-from apps.reservations.models.turn import Turn
+from .area import Area
+from .turn import Turn
 
 
 class Table(models.Model):

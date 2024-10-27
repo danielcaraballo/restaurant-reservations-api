@@ -1,9 +1,11 @@
 from rest_framework import viewsets
-from .models import (Area, Customer, Rating, Reservation,
+from apps.reservations.models import (Area, Rating, Reservation,
                      Restaurant, Table, TableAvailability, Turn)
-from .serializers import (AreaSerializer, CustomerSerializer, RatingSerializer,
+from apps.reservations.serializers import (AreaSerializer, RatingSerializer,
                           ReservationsSerializer, RestaurantSerializer,
                           TableSerializer, TableAvailabilitySerializer, TurnSerializer)
+from apps.customers.models import Customer
+from apps.customers.serializers import CustomerSerializer
 
 
 class AreaViewSet(viewsets.ModelViewSet):

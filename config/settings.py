@@ -27,8 +27,6 @@ BASE_APPS = [
 LOCALS_APPS = [
     'apps.reservations',
     'apps.customers',
-    #'apps.users',
-
 ]
 
 THIRDS_APPS = [
