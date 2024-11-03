@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from .area import AreaSerializer
-from .table import TableAvailabilitySerializer
-from .turn import TurnSerializer
+from .table import TableScheduleSerializer
 from apps.reservations.models import Reservation
 from apps.customers.serializers import CustomerSerializer
 
@@ -9,8 +8,8 @@ from apps.customers.serializers import CustomerSerializer
 class ReservationsSerializer(serializers.ModelSerializer):
     customer = CustomerSerializer(read_only=True)
     area = AreaSerializer(read_only=True)
-    reservation_date = TableAvailabilitySerializer(read_only=True)
-    reservation_turn = TurnSerializer(read_only=True)
+    table_schedule = TableScheduleSerializer(read_only=True)
+    
 
     class Meta:
         model = Reservation

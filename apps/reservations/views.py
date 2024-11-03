@@ -1,9 +1,9 @@
 from rest_framework import viewsets
 from apps.reservations.models import (Area, Rating, Reservation,
-                     Restaurant, Table, TableAvailability, Turn)
+                                      Restaurant, Table, TableSchedule, Turn)
 from apps.reservations.serializers import (AreaSerializer, RatingSerializer,
-                          ReservationsSerializer, RestaurantSerializer,
-                          TableSerializer, TableAvailabilitySerializer, TurnSerializer)
+                                           ReservationsSerializer, RestaurantSerializer,
+                                           TableSerializer, TableScheduleSerializer, TurnSerializer)
 from apps.customers.models import Customer
 from apps.customers.serializers import CustomerSerializer
 
@@ -38,9 +38,9 @@ class TableViewSet(viewsets.ModelViewSet):
     serializer_class = TableSerializer
 
 
-class TableAvailabilityViewSet(viewsets.ModelViewSet):
-    queryset = TableAvailability.objects.all()
-    serializer_class = TableAvailabilitySerializer
+class TableScheduleViewSet(viewsets.ModelViewSet):
+    queryset = TableSchedule.objects.all()
+    serializer_class = TableScheduleSerializer
 
 
 class TurnViewSet(viewsets.ModelViewSet):

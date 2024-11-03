@@ -27,8 +27,4 @@ Guide to contribute to the project.
 
 ## Maintainer
 
-©2024 Developed by Dev. Project 
-
-- Daniel Caraballo `Project Manager` `Developer`
-- Enyerber Rangel `Developer`
-- Danny Gonzalez `Developer`
+©2024 Developed by Dev. Project
