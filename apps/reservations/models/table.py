@@ -6,11 +6,15 @@ from .turn import Turn
 
 class Table(models.Model):
 
-    table_number = models.IntegerField('Table number', null=False)
-    capacity = models.IntegerField('Capacity', null=False)
-    area = models.ForeignKey(Area, related_name='Area',
+    table_number = models.IntegerField('Table number', unique=True)
+    capacity = models.PositiveIntegerField('Capacity', null=False)
+    area = models.ForeignKey(Area, related_name='tables',
                              on_delete=models.PROTECT)
-    status = models.BooleanField('Status', default=True, null=False)
+    status = models.CharField('Status', max_length=20, choices=[
+        ('available', 'Available'),
+        ('occupied', 'Occupied'),
+        ('maintenance', 'Under Maintenance')
+    ], default='available')
 
     class Meta:
         managed = True
@@ -18,27 +22,28 @@ class Table(models.Model):
         verbose_name = 'Table'
         verbose_name_plural = 'Tables'
 
+    def clean(self):
+        if self.capacity <= 0:
+            raise ValidationError("Table capacity must be greater than zero.")
+
     def __str__(self):
         return f'{self.table_number}'
 
 
-class TableAvailability(models.Model):
-
-    table = models.ForeignKey(Table, on_delete=models.CASCADE)
-    date = models.DateField()
-    status = models.BooleanField('Status', default=True)
+class TableSchedule(models.Model):
+    table = models.ForeignKey(
+        Table, on_delete=models.CASCADE, related_name='schedules')
+    date = models.DateField('Date', null=False)
     turn = models.ForeignKey(Turn, on_delete=models.CASCADE)
+    is_available = models.BooleanField('Is Available', default=True)
 
     class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['table', 'date', 'turn'], name='unique_table_schedule')]
         managed = True
-        db_table = 'reservations_table_availability'
-        verbose_name = 'Table Availability'
-        verbose_name_plural = 'Availability of Tables'
-
-    def clean(self):
-        if TableAvailability.objects.filter(table=self.table, date=self.date, turn=self.turn).exists():
-            raise ValidationError(
-                'The table is already available for this date and time.')
+        db_table = 'reservations_table_schedule'
+        verbose_name = 'Table schedule'
+        verbose_name_plural = 'Schedule of Tables'
 
     def __str__(self):
         return f'Table {self.table.table_number} - {self.date} - Turn: {self.turn}'
