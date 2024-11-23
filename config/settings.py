@@ -25,8 +25,9 @@ BASE_APPS = [
 ]
 
 LOCALS_APPS = [
-    'apps.reservations',
+    'apps.users',
     'apps.customers',
+    'apps.reservations',
 ]
 
 THIRDS_APPS = [
