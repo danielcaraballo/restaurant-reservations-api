@@ -29,7 +29,7 @@ urlpatterns = [
          cache_timeout=0), name='schema-redoc'),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('api/users/', include('apps.users.urls')),
+    path('api/auth/', include('apps.authentication.urls')),
     path('api/customers/', include('apps.customers.urls')),
     path('api/reservations/', include('apps.reservations.urls')),
 ]

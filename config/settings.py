@@ -1,6 +1,8 @@
 from decouple import config, Csv
 from pathlib import Path
+from datetime import timedelta
 import os
+
 
 # .env definition
 
@@ -25,7 +27,7 @@ BASE_APPS = [
 ]
 
 LOCALS_APPS = [
-    'apps.users',
+    'apps.authentication',
     'apps.customers',
     'apps.reservations',
 ]
@@ -132,4 +134,9 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
