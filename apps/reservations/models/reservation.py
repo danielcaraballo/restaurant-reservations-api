@@ -9,6 +9,7 @@ STATUS_CHOICES = [
     ('pending', 'Pending'),
     ('confirmed', 'Confirmed'),
     ('cancelled', 'Cancelled'),
+    ('completed', 'Completed'),
 ]
 
 
@@ -20,6 +21,7 @@ class Reservation(models.Model):
     status = models.CharField('Status', max_length=50,
                               choices=STATUS_CHOICES, default='pending')
     table_schedule = models.ForeignKey(TableSchedule, on_delete=models.PROTECT)
+    date_created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         managed = True

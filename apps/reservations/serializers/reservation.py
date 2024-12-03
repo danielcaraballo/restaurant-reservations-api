@@ -9,7 +9,6 @@ class ReservationsSerializer(serializers.ModelSerializer):
     customer = CustomerSerializer(read_only=True)
     area = AreaSerializer(read_only=True)
     table_schedule = TableScheduleSerializer(read_only=True)
-    
 
     class Meta:
         model = Reservation
@@ -22,10 +21,12 @@ class ReservationsSerializer(serializers.ModelSerializer):
         return value
 
     def validate(self, data):
+        table_schedule = data.get('table_schedule')
         if Reservation.objects.filter(
-            reservation_date=data['reservation_date'],
-            reservation_turn=data['reservation_turn']
+            table_schedule=table_schedule,
+            status='confirmed'
         ).exists():
             raise serializers.ValidationError(
-                'The table is already reserved for this date and time.')
+                'The table is already reserved for this date and time.'
+            )
         return data
