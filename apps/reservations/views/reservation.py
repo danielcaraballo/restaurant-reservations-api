@@ -1,28 +1,8 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from drf_yasg.utils import swagger_auto_schema
-from apps.reservations.models import (Area, Rating, Reservation,
-                                      Restaurant, Table, TableSchedule, Turn)
-from apps.reservations.serializers import (AreaSerializer, RatingSerializer,
-                                           ReservationsSerializer, RestaurantSerializer,
-                                           TableSerializer, TableScheduleSerializer, TurnSerializer)
-from apps.customers.models import Customer
-from apps.customers.serializers import CustomerSerializer
-
-
-class AreaViewSet(viewsets.ModelViewSet):
-    queryset = Area.objects.all()
-    serializer_class = AreaSerializer
-
-
-class CustomerViewSet(viewsets.ModelViewSet):
-    queryset = Customer.objects.all()
-    serializer_class = CustomerSerializer
-
-
-class RatingViewSet(viewsets.ModelViewSet):
-    queryset = Rating.objects.all()
-    serializer_class = RatingSerializer
+from apps.reservations.models import Reservation
+from apps.reservations.serializers import ReservationsSerializer
 
 
 class ReservationViewSet(viewsets.ModelViewSet):
@@ -64,23 +44,3 @@ class ReservationViewSet(viewsets.ModelViewSet):
             raise serializers.ValidationError(
                 "Cannot modify a cancelled or completed reservation.")
         serializer.save()
-
-
-class RestaurantViewSet(viewsets.ModelViewSet):
-    queryset = Restaurant.objects.all()
-    serializer_class = RestaurantSerializer
-
-
-class TableViewSet(viewsets.ModelViewSet):
-    queryset = Table.objects.all()
-    serializer_class = TableSerializer
-
-
-class TableScheduleViewSet(viewsets.ModelViewSet):
-    queryset = TableSchedule.objects.all()
-    serializer_class = TableScheduleSerializer
-
-
-class TurnViewSet(viewsets.ModelViewSet):
-    queryset = Turn.objects.all()
-    serializer_class = TurnSerializer
