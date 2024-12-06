@@ -1,5 +1,5 @@
 from rest_framework import viewsets
-from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework.permissions import IsAuthenticated
 from drf_yasg.utils import swagger_auto_schema
 from apps.reservations.models import Reservation
 from apps.reservations.serializers import ReservationsSerializer
@@ -32,8 +32,8 @@ class ReservationViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         if user.is_staff:
-            return Reservation.objects.all()
-        return Reservation.objects.filter(customer__user=user)
+            return Reservation.objects.select_related('customer', 'table_schedule').all()
+        return Reservation.objects.select_related('table_schedule').filter(customer__user=user)
 
     def perform_create(self, serializer):
         serializer.save(customer=self.request.user.customer)

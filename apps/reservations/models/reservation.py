@@ -40,9 +40,9 @@ class Reservation(models.Model):
                 "The number of guests exceeds the table capacity.")
 
         # Validar que la mesa esté disponible
-        if not self.table_schedule.is_available:
-            raise ValidationError(
-                "The selected table is not available for the chosen date and turn.")
+        # if not self.table_schedule.is_available:
+        #     raise ValidationError(
+        #         "The selected table is not available for the chosen date and turn.")
 
         # Validar que la reserva no esté en el pasado
         if self.table_schedule.date < date.today():
