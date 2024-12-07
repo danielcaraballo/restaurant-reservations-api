@@ -27,7 +27,7 @@ class Table(models.Model):
             raise ValidationError("Table capacity must be greater than zero.")
 
     def __str__(self):
-        return f'{self.table_number}'
+        return f'{self.table_number} - {self.area} - Capacity: {self.capacity}'
 
 
 class TableSchedule(models.Model):
@@ -35,7 +35,7 @@ class TableSchedule(models.Model):
         Table, on_delete=models.CASCADE, related_name='schedules')
     date = models.DateField('Date', null=False)
     turn = models.ForeignKey(Turn, on_delete=models.CASCADE)
-    is_available = models.BooleanField('Is Available', default=True)
+    # is_available = models.BooleanField('Is Available', default=True)
 
     class Meta:
         constraints = [
