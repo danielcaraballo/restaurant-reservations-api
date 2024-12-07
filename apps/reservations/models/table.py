@@ -27,7 +27,7 @@ class Table(models.Model):
             raise ValidationError("Table capacity must be greater than zero.")
 
     def __str__(self):
-        return f'{self.table_number}'
+        return f'{self.table_number} - {self.area} - Capacity: {self.capacity}'
 
 
 class TableSchedule(models.Model):

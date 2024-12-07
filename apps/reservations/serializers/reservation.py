@@ -1,6 +1,5 @@
-from django.db.models import Q
 from rest_framework import serializers
-from apps.reservations.models import Reservation, Turn, Table, Area, TableSchedule
+from apps.reservations.models import Area, Reservation, Table,  TableSchedule, Turn
 from apps.customers.serializers import CustomerSerializer
 
 
@@ -14,34 +13,64 @@ class ReservationsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reservation
         fields = ['id', 'customer', 'number_guests',
-                  'turn_id', 'table_schedule_id', 'date', 'area_id']
+                  'turn_id', 'area_id', 'table_schedule_id', 'date']
         read_only_fields = ['customer']
 
-    def create(self, validated_data):
-        user = self.context['request'].user
-        number_guests = validated_data.pop('number_guests')
-        area_id = validated_data.pop('area_id')
-        turn_id = validated_data.pop('turn_id')
-        reservation_date = validated_data.pop('date')
-
-        # Verificar que el área existe y está activa
+    def validate(self, data):
+        """
+        Validar datos antes de la creación de la reserva.
+        """
+        # Validar área activa
         try:
-            area = Area.objects.get(id=area_id, status=True)
+            area = Area.objects.get(id=data['area_id'], status=True)
         except Area.DoesNotExist:
             raise serializers.ValidationError(
-                "Invalid or inactive area selected.")
+                {"area": "Invalid or inactive area selected."})
 
-        # Verificar que el turno existe
+        # Validar turno existente
         try:
-            turn = Turn.objects.get(id=turn_id)
+            turn = Turn.objects.get(id=data['turn_id'])
         except Turn.DoesNotExist:
-            raise serializers.ValidationError("Invalid turn selected.")
+            raise serializers.ValidationError(
+                {"turn": "Invalid turn selected."})
 
-        # Buscar mesas disponibles
+        # Validar que exista al menos una mesa disponible
+        table_exists = Table.objects.filter(
+            area=area,
+            capacity__gte=data['number_guests'],
+            status='available'
+        ).exclude(
+            id__in=Reservation.objects.filter(
+                table_schedule__date=data['date'],
+                table_schedule__turn=turn,
+                status__in=['confirmed', 'pending']
+            ).values_list('table_schedule__table_id', flat=True)
+        ).exists()
+
+        if not table_exists:
+            raise serializers.ValidationError(
+                {"table": "No available tables for the selected date, turn, and number of guests."}
+            )
+
+        return data
+
+    def create(self, validated_data):
+        """
+        Crear reserva después de validar datos.
+        """
+        user = self.context['request'].user
+        number_guests = validated_data['number_guests']
+        area_id = validated_data['area_id']
+        turn_id = validated_data['turn_id']
+        reservation_date = validated_data['date']
+
+        # Obtener área, turno y mesa disponible
+        area = Area.objects.get(id=area_id, status=True)
+        turn = Turn.objects.get(id=turn_id)
         available_table = Table.objects.filter(
             area=area,
             capacity__gte=number_guests,
-            status='available',
+            status='available'
         ).exclude(
             id__in=Reservation.objects.filter(
                 table_schedule__date=reservation_date,
@@ -50,19 +79,14 @@ class ReservationsSerializer(serializers.ModelSerializer):
             ).values_list('table_schedule__table_id', flat=True)
         ).first()
 
-        if not available_table:
-            raise serializers.ValidationError(
-                "No available tables for the selected date, turn, and number of guests."
-            )
-
-        # Crear el registro en TableSchedule
+        # Crear TableSchedule
         table_schedule = TableSchedule.objects.create(
             table=available_table,
             date=reservation_date,
             turn=turn
         )
 
-        # Crear la reserva con estado pendiente
+        # Crear Reserva
         reservation = Reservation.objects.create(
             customer=user.customer,
             number_guests=number_guests,
