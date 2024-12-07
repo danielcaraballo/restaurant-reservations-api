@@ -4,7 +4,7 @@ from datetime import timedelta
 import os
 
 
-# .env definition
+# Definition of environment variable
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
@@ -13,7 +13,7 @@ DEBUG = config('DEBUG')
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
 
-# Application definition
+# Definition of apps
 
 BASE_APPS = [
     "admin_interface",
@@ -48,7 +48,6 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            # Otras ubicaciones de plantillas
             os.path.join(BASE_DIR, 'templates'),
         ],
         'APP_DIRS': True,
