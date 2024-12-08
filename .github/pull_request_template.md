@@ -1,7 +1,6 @@
 # Description
 
 <!-- Briefly describe the changes included in this PR -->
-<!-- Provide context if necessary -->
 
 ## Type of Change
 
