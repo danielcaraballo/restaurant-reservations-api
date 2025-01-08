@@ -32,13 +32,13 @@ Follow these steps to set up the project locally:
 
    ```bash
    git clone https://github.com/devproject-github/restaurant-reservations-backend.git
-   cd restaurant-reservation-api
+   cd restaurant-reservation-backend
    ```
 
 2. **Create a virtual environment**:
 
    ```bash
-   python -m venv venv
+   python -m venv .venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
 
@@ -72,7 +72,7 @@ Follow these steps to set up the project locally:
    python manage.py runserver
    ```
 
-Visit `http://127.0.0.1:8000/admin` to access the API.
+Visit `http://127.0.0.1:8000/` to access the API.
 
 ---
 
