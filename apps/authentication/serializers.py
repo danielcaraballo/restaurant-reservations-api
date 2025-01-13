@@ -21,6 +21,9 @@ class RegisterSerializer(serializers.ModelSerializer):
             validate_email(value)
         except ValidationError:
             raise serializers.ValidationError("Invalid email format.")
+        # Verifica que el email no esté duplicado
+        if User.objects.filter(email=value).exists():
+            raise serializers.ValidationError("This email is already in use.")
         return value
 
     def validate_password(self, value):
