@@ -6,9 +6,10 @@ from django.core.exceptions import ValidationError
 
 
 class RegisterSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(required=True)
-    email = serializers.EmailField(required=True)
-    password = serializers.CharField(write_only=True, min_length=8)
+    username = serializers.CharField(required=True, source='user.username')
+    email = serializers.EmailField(required=True, source='user.email')
+    password = serializers.CharField(
+        write_only=True, min_length=8, source='user.password')
 
     class Meta:
         model = Customer
@@ -43,15 +44,10 @@ class RegisterSerializer(serializers.ModelSerializer):
         return value
 
     def create(self, validated_data):
-        user_data = {
-            'username': validated_data['username'],
-            'email': validated_data['email'],
-            'password': validated_data['password'],
-        }
-        # Crear usuario
+        # Extraer datos relacionados con el modelo User
+        user_data = validated_data.pop('user')
+        # Crear el usuario
         user = User.objects.create_user(**user_data)
-        # Crear cliente asociado
-        customer = Customer.objects.create(
-            user=user, phone=validated_data.get('phone')
-        )
+        # Crear el cliente
+        customer = Customer.objects.create(user=user, **validated_data)
         return customer
