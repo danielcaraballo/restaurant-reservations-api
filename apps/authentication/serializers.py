@@ -10,10 +10,14 @@ class RegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(required=True, source='user.email')
     password = serializers.CharField(
         write_only=True, min_length=8, source='user.password')
+    first_name = serializers.CharField(required=True, source='user.first_name')
+    last_name = serializers.CharField(required=True, source='user.last_name')
+    phone = serializers.CharField(required=True)
 
     class Meta:
         model = Customer
-        fields = ['username', 'email', 'password', 'phone']
+        fields = ['username', 'email', 'password',
+                  'first_name', 'last_name', 'phone']
 
     def validate_email(self, value):
         # Verifica que el email sea válido
@@ -40,6 +44,9 @@ class RegisterSerializer(serializers.ModelSerializer):
         return value
 
     def validate_username(self, value):
+        # Asegura que el nombre de usuario esté en minúsculas
+        if value != value.lower():
+            raise serializers.ValidationError("Username must be in lowercase.")
         # Comprueba que el nombre de usuario no esté duplicado
         if User.objects.filter(username=value).exists():
             raise serializers.ValidationError(
