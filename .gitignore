@@ -1,5 +1,6 @@
 # Entorno virtual
 venv/
+.venv/
 .env
 
 # Archivos y carpetas generados por Python
