@@ -6,13 +6,18 @@ from django.core.exceptions import ValidationError
 
 
 class RegisterSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(required=True)
-    email = serializers.EmailField(required=True)
-    password = serializers.CharField(write_only=True, min_length=8)
+    username = serializers.CharField(required=True, source='user.username')
+    email = serializers.EmailField(required=True, source='user.email')
+    password = serializers.CharField(
+        write_only=True, min_length=8, source='user.password')
+    first_name = serializers.CharField(required=True, source='user.first_name')
+    last_name = serializers.CharField(required=True, source='user.last_name')
+    phone = serializers.CharField(required=True)
 
     class Meta:
         model = Customer
-        fields = ['username', 'email', 'password', 'phone']
+        fields = ['username', 'email', 'password',
+                  'first_name', 'last_name', 'phone']
 
     def validate_email(self, value):
         # Verifica que el email sea válido
@@ -20,6 +25,9 @@ class RegisterSerializer(serializers.ModelSerializer):
             validate_email(value)
         except ValidationError:
             raise serializers.ValidationError("Invalid email format.")
+        # Verifica que el email no esté duplicado
+        if User.objects.filter(email=value).exists():
+            raise serializers.ValidationError("This email is already in use.")
         return value
 
     def validate_password(self, value):
@@ -36,6 +44,9 @@ class RegisterSerializer(serializers.ModelSerializer):
         return value
 
     def validate_username(self, value):
+        # Asegura que el nombre de usuario esté en minúsculas
+        if value != value.lower():
+            raise serializers.ValidationError("Username must be in lowercase.")
         # Comprueba que el nombre de usuario no esté duplicado
         if User.objects.filter(username=value).exists():
             raise serializers.ValidationError(
@@ -43,15 +54,10 @@ class RegisterSerializer(serializers.ModelSerializer):
         return value
 
     def create(self, validated_data):
-        user_data = {
-            'username': validated_data['username'],
-            'email': validated_data['email'],
-            'password': validated_data['password'],
-        }
-        # Crear usuario
+        # Extraer datos relacionados con el modelo User
+        user_data = validated_data.pop('user')
+        # Crear el usuario
         user = User.objects.create_user(**user_data)
-        # Crear cliente asociado
-        customer = Customer.objects.create(
-            user=user, phone=validated_data.get('phone')
-        )
+        # Crear el cliente
+        customer = Customer.objects.create(user=user, **validated_data)
         return customer

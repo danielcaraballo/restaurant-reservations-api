@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User
 import re
 
 # Create your models here.
@@ -8,7 +9,7 @@ import re
 
 class Customer(models.Model):
     user = models.OneToOneField(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="customer")
+        User, on_delete=models.CASCADE, related_name="customer")
     phone = models.CharField('Phone', max_length=15, blank=True, null=True)
 
     # En caso de roles específicos para clientes, considera activar los siguientes campos
