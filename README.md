@@ -118,3 +118,5 @@ Feel free to contact us for any inquiries
 
 📧 Email: devproject.ve@gmail.com
 🔗 GitHub: [devproject-github](https://github.com/devproject-github)
+
+> If you find this project useful, consider starring ⭐ the repository to show your support!
