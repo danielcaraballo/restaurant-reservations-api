@@ -29,7 +29,7 @@ For detailed version history, see the [CHANGELOG.md](CHANGELOG.md).
 ## 🌐 Complementary Frontend
 This repository contains exclusively the code for the API of the restaurant reservation management application. Additionally, the development of the frontend, built with **React and Material UI (MUI)**, complements this project by providing a modern, intuitive, and fully functional user interface.
 
-You can explore the frontend repository here [Restaurant Reservations Frontend](https://github.com/devproject-github/restaurant-reservations-frontend).
+You can explore the frontend repository here [Restaurant Reservation Management Frontend](https://github.com/devproject-github/restaurant-reservations-frontend).
 
 ---
 
