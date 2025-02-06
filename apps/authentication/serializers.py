@@ -3,10 +3,27 @@ from django.contrib.auth.models import User
 from apps.customers.models import Customer
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
+from django.contrib.auth import get_user_model
+import random
+import string
+
+User = get_user_model()
+
+
+def generate_username(email):
+    """Generar un nombre de usuario único basado en el email"""
+    base_username = email.split(
+        '@')[0]  # Usamos la parte antes del '@' del correo
+    username = base_username
+
+    # Aseguramos que el nombre de usuario sea único
+    while User.objects.filter(username=username).exists():
+        username = base_username + ''.join(random.choices(string.digits, k=4))
+
+    return username
 
 
 class RegisterSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(required=True, source='user.username')
     email = serializers.EmailField(required=True, source='user.email')
     password = serializers.CharField(
         write_only=True, min_length=8, source='user.password')
@@ -16,7 +33,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Customer
-        fields = ['username', 'email', 'password',
+        fields = ['email', 'password',
                   'first_name', 'last_name', 'phone']
 
     def validate_email(self, value):
@@ -43,21 +60,19 @@ class RegisterSerializer(serializers.ModelSerializer):
                 "Password must contain at least one letter.")
         return value
 
-    def validate_username(self, value):
-        # Asegura que el nombre de usuario esté en minúsculas
-        if value != value.lower():
-            raise serializers.ValidationError("Username must be in lowercase.")
-        # Comprueba que el nombre de usuario no esté duplicado
-        if User.objects.filter(username=value).exists():
-            raise serializers.ValidationError(
-                "This username is already in use.")
-        return value
-
     def create(self, validated_data):
+        """Crea un usuario y un cliente asociado con username automático"""
+
         # Extraer datos relacionados con el modelo User
         user_data = validated_data.pop('user')
+
+        # Generar username automático
+        username = generate_username(user_data['email'])
+        user_data['username'] = username
+
         # Crear el usuario
         user = User.objects.create_user(**user_data)
-        # Crear el cliente
+
+        # Crear el cliente asociado al usuario
         customer = Customer.objects.create(user=user, **validated_data)
         return customer
