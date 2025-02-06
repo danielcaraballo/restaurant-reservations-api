@@ -27,13 +27,15 @@ class RegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(required=True, source='user.email')
     password = serializers.CharField(
         write_only=True, min_length=8, source='user.password')
+    password_confirmation = serializers.CharField(
+        write_only=True, min_length=8, source='user.password_confirmation')
     first_name = serializers.CharField(required=True, source='user.first_name')
     last_name = serializers.CharField(required=True, source='user.last_name')
     phone = serializers.CharField(required=True)
 
     class Meta:
         model = Customer
-        fields = ['email', 'password',
+        fields = ['email', 'password', 'password_confirmation',
                   'first_name', 'last_name', 'phone']
 
     def validate_email(self, value):
@@ -60,11 +62,21 @@ class RegisterSerializer(serializers.ModelSerializer):
                 "Password must contain at least one letter.")
         return value
 
+    def validate(self, data):
+        # Asegurarse de que las contraseñas coincidan
+        if data['user']['password'] != data['user']['password_confirmation']:
+            raise serializers.ValidationError(
+                "The passwords must match.")
+        return data
+
     def create(self, validated_data):
         """Crea un usuario y un cliente asociado con username automático"""
 
         # Extraer datos relacionados con el modelo User
         user_data = validated_data.pop('user')
+
+        # Eliminar password_confirmation
+        user_data.pop('password_confirmation', None)
 
         # Generar username automático
         username = generate_username(user_data['email'])
