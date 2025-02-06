@@ -12,10 +12,10 @@ class LoginView(APIView):
     permission_classes = []
 
     def post(self, request):
-        username = request.data.get('username')
+        identifier = request.data.get('identifier')
         password = request.data.get('password')
 
-        user = authenticate(request, username=username, password=password)
+        user = authenticate(request, username=identifier, password=password)
         if user:
             refresh = RefreshToken.for_user(user)
             role = 'admin' if user.is_staff else 'customer'

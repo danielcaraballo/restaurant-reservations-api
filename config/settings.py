@@ -150,3 +150,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",  # Frontend en desarrollo
     "http://localhost:4173",  # Frontend en preview/build
 ]
+
+AUTHENTICATION_BACKENDS = [
+    'apps.authentication.models.AuthBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
