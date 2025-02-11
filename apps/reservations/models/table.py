@@ -4,17 +4,20 @@ from .area import Area
 from .turn import Turn
 
 
+class TableStatus(models.TextChoices):
+    AVAILABLE = 'available', 'Available'
+    OCCUPIED = 'occupied', 'Occupied'
+    MAINTENANCE = 'maintenance', 'Maintenance'
+
+
 class Table(models.Model):
 
     table_number = models.IntegerField('Table number', unique=True)
-    capacity = models.PositiveIntegerField('Capacity', null=False)
+    capacity = models.PositiveIntegerField('Capacity', null=False, default=1)
     area = models.ForeignKey(Area, related_name='tables',
                              on_delete=models.PROTECT)
-    status = models.CharField('Status', max_length=20, choices=[
-        ('available', 'Available'),
-        ('occupied', 'Occupied'),
-        ('maintenance', 'Under Maintenance')
-    ], default='available')
+    status = models.CharField(
+        'Status', max_length=20, choices=TableStatus.choices, default=TableStatus.AVAILABLE)
 
     class Meta:
         managed = True
@@ -35,7 +38,6 @@ class TableSchedule(models.Model):
         Table, on_delete=models.CASCADE, related_name='schedules')
     date = models.DateField('Date', null=False)
     turn = models.ForeignKey(Turn, on_delete=models.CASCADE)
-    # is_available = models.BooleanField('Is Available', default=True)
 
     class Meta:
         constraints = [

@@ -1,16 +1,15 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 from datetime import date
-from .area import Area
 from .table import TableSchedule
 from apps.customers.models import Customer
 
-STATUS_CHOICES = [
-    ('pending', 'Pending'),
-    ('confirmed', 'Confirmed'),
-    ('cancelled', 'Cancelled'),
-    ('completed', 'Completed'),
-]
+
+class ReservationStatus(models.TextChoices):
+    PENDING = 'pending', 'Pending'
+    CONFIRMED = 'confirmed', 'Confirmed'
+    CANCELLED = 'cancelled', 'Cancelled'
+    COMPLETED = 'completed', 'Completed'
 
 
 class Reservation(models.Model):
@@ -18,8 +17,8 @@ class Reservation(models.Model):
         Customer, on_delete=models.CASCADE, related_name='reservations')
     number_guests = models.PositiveIntegerField(
         'Number of guests', blank=True, null=True)
-    status = models.CharField('Status', max_length=50,
-                              choices=STATUS_CHOICES, default='pending')
+    status = models.CharField(
+        'Status', max_length=20, choices=ReservationStatus.choices, default=ReservationStatus.PENDING)
     table_schedule = models.ForeignKey(TableSchedule, on_delete=models.PROTECT)
     date_created = models.DateTimeField(auto_now_add=True)
 
@@ -38,11 +37,6 @@ class Reservation(models.Model):
         if self.table_schedule.table.capacity < self.number_guests:
             raise ValidationError(
                 "The number of guests exceeds the table capacity.")
-
-        # Validar que la mesa esté disponible
-        # if not self.table_schedule.is_available:
-        #     raise ValidationError(
-        #         "The selected table is not available for the chosen date and turn.")
 
         # Validar que la reserva no esté en el pasado
         if self.table_schedule.date < date.today():

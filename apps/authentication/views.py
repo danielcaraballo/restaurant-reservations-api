@@ -12,13 +12,20 @@ class LoginView(APIView):
     permission_classes = []
 
     def post(self, request):
-        username = request.data.get('username')
+        identifier = request.data.get('identifier')
         password = request.data.get('password')
 
-        user = authenticate(request, username=username, password=password)
+        if not identifier or not password:
+            return Response({'error': 'Username/Email and Password are required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        user = authenticate(request, username=identifier, password=password)
         if user:
+            if not user.is_active:
+                return Response({'error': 'Inactive account'}, status=status.HTTP_403_FORBIDDEN)
+
             refresh = RefreshToken.for_user(user)
             role = 'admin' if user.is_staff else 'customer'
+
             return Response({
                 'access': str(refresh.access_token),
                 'refresh': str(refresh),
