@@ -1,3 +1,5 @@
+![Thumbnail](https://github.com/user-attachments/assets/cc789673-e251-4259-8920-80d451c0c152)
+
 # Restaurant Reservation Management API
 
 API for managing restaurant reservations with automatic table allocation and robust status tracking. Built for seamless integration with frontend applications and scalability for future features.
@@ -16,11 +18,18 @@ API for managing restaurant reservations with automatic table allocation and rob
 
 ## 📦 Current Version
 
-### v0.5.0 (Development)
+### v0.5.0 (Beta)
 
-**Note:** This is an early development version. Features are still being tested, and breaking changes may occur.
+> **Note:** This is a beta version. Features are still being tested, and breaking changes may occur as the project evolves.
 
 For detailed version history, see the [CHANGELOG.md](CHANGELOG.md).
+
+---
+
+## 🌐 Complementary Frontend
+This repository contains exclusively the code for the API of the restaurant reservation management application. Additionally, the development of the frontend, built with **React and Material UI (MUI)**, complements this project by providing a modern, intuitive, and fully functional user interface.
+
+You can explore the frontend repository here [Restaurant Reservation Management Frontend](https://github.com/devproject-github/restaurant-reservations-frontend).
 
 ---
 
@@ -39,7 +48,7 @@ Follow these steps to set up the project locally:
 
    ```bash
    python -m venv .venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
    ```
 
 3. **Install dependencies**:
@@ -109,3 +118,5 @@ Feel free to contact us for any inquiries
 
 📧 Email: devproject.ve@gmail.com
 🔗 GitHub: [devproject-github](https://github.com/devproject-github)
+
+> If you find this project useful, consider starring ⭐ the repository to show your support!

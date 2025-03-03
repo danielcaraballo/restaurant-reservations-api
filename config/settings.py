@@ -34,7 +34,9 @@ LOCALS_APPS = [
 
 THIRDS_APPS = [
     'rest_framework',
+    'rest_framework_simplejwt.token_blacklist',
     'drf_yasg',
+    'corsheaders',
 ]
 
 INSTALLED_APPS = BASE_APPS + LOCALS_APPS + THIRDS_APPS
@@ -127,6 +129,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 REST_FRAMEWORK = {
@@ -136,6 +139,19 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'BLACKLIST_ENABLED': True,
 }
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",  # Frontend en desarrollo
+    "http://localhost:4173",  # Frontend en preview/build
+]
+
+AUTHENTICATION_BACKENDS = [
+    'apps.authentication.models.AuthBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
