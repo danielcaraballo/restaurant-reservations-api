@@ -18,7 +18,7 @@ API for managing restaurant reservations with automatic table allocation and rob
 
 ## 📦 Current Version
 
-### v0.5.0 (Beta)
+### v1.0.0
 
 > **Note:** This is a beta version. Features are still being tested, and breaking changes may occur as the project evolves.
 
